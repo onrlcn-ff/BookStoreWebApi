@@ -1,3 +1,4 @@
+using AutoMapper;
 using BookStoreWebApi.BookOperations.CreateBook;
 using BookStoreWebApi.BookOperations.DeleteBook;
 using BookStoreWebApi.BookOperations.GetBookDetail;
@@ -15,22 +16,24 @@ namespace BookStoreWebApi.Controllers
     {
         private readonly BookStoreDBContext _context;
         private readonly ILogger<BookController> _logger;
+        private readonly IMapper _mapper;
 
-        public BookController(ILogger<BookController> logger, BookStoreDBContext context)
+        public BookController(ILogger<BookController> logger, BookStoreDBContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _logger = logger;
             _context = context;
         }
 
         [HttpGet]
         public IActionResult GetBooks(){
-           GetBooksQuery query = new GetBooksQuery(_context);
+           GetBooksQuery query = new GetBooksQuery(_context, _mapper);
            var result = query.Handle();
            return Ok(result);
         }
         [HttpGet("{id}")]
         public IActionResult GetBookById(int id ){
-           GetBookDetailQuery query = new GetBookDetailQuery(_context);
+           GetBookDetailQuery query = new GetBookDetailQuery(_context, _mapper);
            DetailBookViewModel result;
 
            try
@@ -48,7 +51,7 @@ namespace BookStoreWebApi.Controllers
         [HttpPost]
         public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
-            CreateBookCommand command = new CreateBookCommand(_context);
+            CreateBookCommand command = new CreateBookCommand(_context, _mapper);
 
             try
             {
@@ -66,7 +69,7 @@ namespace BookStoreWebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateBook(int id,[FromBody] UpdateBookModel updateBook)
         {
-            UpdateBookCommand update = new UpdateBookCommand(_context);
+            UpdateBookCommand update = new UpdateBookCommand(_context, _mapper);
 
             try
             {

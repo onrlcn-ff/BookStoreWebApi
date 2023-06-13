@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BookStoreWebApi.DBOperations;
 
 namespace BookStoreWebApi.BookOperations.UpdateBook
@@ -10,10 +11,13 @@ namespace BookStoreWebApi.BookOperations.UpdateBook
     {
 
         private readonly BookStoreDBContext _context;
+        private readonly IMapper _mapper;
+
         public UpdateBookModel Model;
 
-        public UpdateBookCommand(BookStoreDBContext context)
+        public UpdateBookCommand(BookStoreDBContext context, IMapper mapper)
         {
+            _mapper = mapper;
            _context = context; 
         }
 
@@ -23,8 +27,8 @@ namespace BookStoreWebApi.BookOperations.UpdateBook
             if(book is null)
                 throw new InvalidOperationException("Güncellenecek Kitap bulunamadi");
 
-            book.Title = Model.Title!= default ? Model.Title: book.Title;
-            book.GenreId = Model.GenreId != default ? Model.GenreId : book.GenreId;
+            book = _mapper.Map<Book>(Model);
+          
             _context.SaveChanges();
         }
 

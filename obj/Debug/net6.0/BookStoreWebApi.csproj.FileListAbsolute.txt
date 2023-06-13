@@ -41,3 +41,5 @@ C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\Microsoft.Ex
 C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
 C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

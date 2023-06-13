@@ -1,3 +1,4 @@
+using AutoMapper;
 using BookStoreWebApi.DBOperations;
 
 namespace BookStoreWebApi.BookOperations.CreateBook
@@ -5,10 +6,13 @@ namespace BookStoreWebApi.BookOperations.CreateBook
     public class CreateBookCommand
     {
         private readonly BookStoreDBContext _context;
+        private readonly IMapper _mapper;
+
         public CreateBookModel Model {get; set;}
 
-        public CreateBookCommand(BookStoreDBContext context)
+        public CreateBookCommand(BookStoreDBContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -19,13 +23,8 @@ namespace BookStoreWebApi.BookOperations.CreateBook
             if(book is not null)
                 throw new InvalidOperationException("Eklemeye Çalıştığınız Kitap Mevcut");
 
-            book = new Book{
-                Title = Model.Title,
-                PageCount = Model.PageCount,
-                PublishDate = Model.PublishDate,
-                GenreId = Model.GenreId
-            };
-
+            book = _mapper.Map<Book>(Model);
+            
             _context.Books.Add(book);
             _context.SaveChanges();
         }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using BookStoreWebApi.Common;
 using BookStoreWebApi.DBOperations;
 
@@ -6,9 +7,11 @@ namespace BookStoreWebApi.BookOperations.GetBookDetail
     public class GetBookDetailQuery
     {
         private readonly BookStoreDBContext _context;
+        private readonly IMapper _mapper;
 
-        public GetBookDetailQuery(BookStoreDBContext context)
+        public GetBookDetailQuery(BookStoreDBContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -18,12 +21,7 @@ namespace BookStoreWebApi.BookOperations.GetBookDetail
             if(book is null)
                 throw new ("Bu kitap bulunamadi");
 
-            var model = new DetailBookViewModel{
-               Title = book.Title,
-               PageCount = book.PageCount,
-               PublishDate = book.PublishDate,
-               GenreId = ((GenreEnum)book.GenreId).ToString()
-            };
+            var model = _mapper.Map<DetailBookViewModel>(book);
 
             return model;
         }
@@ -32,6 +30,6 @@ namespace BookStoreWebApi.BookOperations.GetBookDetail
         public string Title { get; set; }
         public int PageCount { get; set; }
         public DateTime PublishDate { get; set; }
-        public string GenreId { get; set; }
+        public string Genre { get; set; }
     }
 }
