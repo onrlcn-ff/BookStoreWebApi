@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using BookStoreWebApi.BookOperations.CreateBook;
+using BookStoreWebApi.BookOperations.DeleteBook;
+using BookStoreWebApi.BookOperations.GetBookDetail;
+using BookStoreWebApi.BookOperations.GetBooks;
+using BookStoreWebApi.BookOperations.UpdateBook;
 using BookStoreWebApi.DBOperations;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using static BookStoreWebApi.BookOperations.UpdateBook.UpdateBookCommand;
 
 namespace BookStoreWebApi.Controllers
 {
@@ -23,39 +23,60 @@ namespace BookStoreWebApi.Controllers
         }
 
         [HttpGet]
-        public List<Book> GetBooks(){
-            var bookList = _context.Books.OrderBy(x => x.Id).ToList<Book>();
-            return bookList;
+        public IActionResult GetBooks(){
+           GetBooksQuery query = new GetBooksQuery(_context);
+           var result = query.Handle();
+           return Ok(result);
         }
         [HttpGet("{id}")]
-        public Book GetBookById(int id ){
-            var book = _context.Books.Where(book => book.Id == id).SingleOrDefault();
-            return book;
+        public IActionResult GetBookById(int id ){
+           GetBookDetailQuery query = new GetBookDetailQuery(_context);
+           DetailBookViewModel result;
+
+           try
+           {
+               result =  query.Handle(id); 
+           }
+           catch (Exception ex)
+           {
+                return BadRequest(ex.Message);
+           }
+
+           return Ok(result);
         }
 
         [HttpPost]
-        public IActionResult AddBook([FromBody] Book newBook)
+        public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
-            var book = _context.Books.SingleOrDefault(book => book.Title == newBook.Title);
+            CreateBookCommand command = new CreateBookCommand(_context);
 
-            if(book is not null)
-                return BadRequest();
+            try
+            {
+                command.Model = newBook;
+                command.Handle();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            _context.Books.Add(newBook);
             return Ok();
         }
+
         [HttpPut("{id}")]
-        public IActionResult UpdateBook(int id,[FromBody] Book updateBook)
+        public IActionResult UpdateBook(int id,[FromBody] UpdateBookModel updateBook)
         {
-            var book = _context.Books.SingleOrDefault(book => book.Id == id);
+            UpdateBookCommand update = new UpdateBookCommand(_context);
 
-            if(book is null)
-                return BadRequest();
-
-            book.GenreId = updateBook.GenreId != default ? updateBook.GenreId : book.GenreId;
-            book.Title = updateBook.Title!= default ? updateBook.Title: book.Title;
-            book.PublishDate= updateBook.PublishDate!= default ? updateBook.PublishDate: book.PublishDate;
-            book.PageCount = updateBook.PageCount!= default ? updateBook.PageCount: book.PageCount;
+            try
+            {
+                update.Model = updateBook;
+                update.Handle(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return Ok();
         }
@@ -63,12 +84,17 @@ namespace BookStoreWebApi.Controllers
         [HttpDelete("{id}")]
          public IActionResult DeleteBook(int id)
         {
-            var book = _context.Books.SingleOrDefault(book => book.Id == id);
-            
-            if(book is null)
-                return BadRequest();
+           DeleteBookCommand delete = new DeleteBookCommand(_context);
 
-           _context.Books.Remove(book);
+           try
+           {
+                delete.Handle(id); 
+           }
+           catch (Exception ex)
+           {
+                return BadRequest(ex.Message);
+           }
+
             return Ok();
 
         }

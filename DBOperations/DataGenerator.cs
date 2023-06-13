@@ -21,14 +21,12 @@ namespace BookStoreWebApi.DBOperations
 
                 context.Books.AddRange(
                     new Book{
-                    Id = 1,
                     Title = "Dune",
                     GenreId = 1,
                     PageCount = 800,
                     PublishDate = DateTime.Now
                     },
                     new Book{
-                    Id = 2,
                     Title = "DuneChildren",
                     GenreId = 1,
                     PageCount = 900,
