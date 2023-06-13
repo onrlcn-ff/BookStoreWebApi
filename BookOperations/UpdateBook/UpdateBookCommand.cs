@@ -27,7 +27,7 @@ namespace BookStoreWebApi.BookOperations.UpdateBook
             if(book is null)
                 throw new InvalidOperationException("Güncellenecek Kitap bulunamadi");
 
-            book = _mapper.Map<Book>(Model);
+            _mapper.Map(Model, book); 
           
             _context.SaveChanges();
         }
