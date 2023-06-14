@@ -1,5 +1,4 @@
 using AutoMapper;
-using BookStoreWebApi.Common;
 using BookStoreWebApi.DBOperations;
 
 namespace BookStoreWebApi.BookOperations.GetBookDetail
@@ -9,14 +8,16 @@ namespace BookStoreWebApi.BookOperations.GetBookDetail
         private readonly BookStoreDBContext _context;
         private readonly IMapper _mapper;
 
+        public int Id { get; set; }
+
         public GetBookDetailQuery(BookStoreDBContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public DetailBookViewModel Handle(int id){
-            var book = _context.Books.Where(book => book.Id == id).SingleOrDefault();
+        public DetailBookViewModel Handle(){
+            var book = _context.Books.Where(book => book.Id == Id).SingleOrDefault();
 
             if(book is null)
                 throw new ("Bu kitap bulunamadi");

@@ -2,7 +2,6 @@ using AutoMapper;
 using BookStoreWebApi.BookOperations.CreateBook;
 using BookStoreWebApi.BookOperations.GetBookDetail;
 using BookStoreWebApi.BookOperations.GetBooks;
-using Microsoft.AspNetCore.SignalR;
 using static BookStoreWebApi.BookOperations.UpdateBook.UpdateBookCommand;
 
 namespace BookStoreWebApi.Common

@@ -18,8 +18,8 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-var services = scope.ServiceProvider;
-DataGenerator.Initialize(services);
+    var services = scope.ServiceProvider;
+    DataGenerator.Initialize(services);
 }
 
 

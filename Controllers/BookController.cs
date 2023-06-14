@@ -5,6 +5,8 @@ using BookStoreWebApi.BookOperations.GetBookDetail;
 using BookStoreWebApi.BookOperations.GetBooks;
 using BookStoreWebApi.BookOperations.UpdateBook;
 using BookStoreWebApi.DBOperations;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using static BookStoreWebApi.BookOperations.UpdateBook.UpdateBookCommand;
 
@@ -38,7 +40,10 @@ namespace BookStoreWebApi.Controllers
 
            try
            {
-               result =  query.Handle(id); 
+               query.Id = id;
+               GetBookDetailQueryValidator validator = new GetBookDetailQueryValidator();
+               validator.ValidateAndThrow(query);
+               result =  query.Handle(); 
            }
            catch (Exception ex)
            {
@@ -56,6 +61,9 @@ namespace BookStoreWebApi.Controllers
             try
             {
                 command.Model = newBook;
+                CreateBookCommandValidator validator = new CreateBookCommandValidator();
+                validator.ValidateAndThrow(command);
+
                 command.Handle();
             }
             catch (Exception ex)
@@ -71,10 +79,14 @@ namespace BookStoreWebApi.Controllers
         {
             UpdateBookCommand update = new UpdateBookCommand(_context, _mapper);
 
+
             try
             {
                 update.Model = updateBook;
-                update.Handle(id);
+                update.Id = id;
+                UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
+                validator.ValidateAndThrow(update);
+                update.Handle();
             }
             catch (Exception ex)
             {
@@ -88,10 +100,12 @@ namespace BookStoreWebApi.Controllers
          public IActionResult DeleteBook(int id)
         {
            DeleteBookCommand delete = new DeleteBookCommand(_context);
-
            try
            {
-                delete.Handle(id); 
+                delete.Id = id;
+                DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
+                validator.ValidateAndThrow(delete);
+                delete.Handle(); 
            }
            catch (Exception ex)
            {

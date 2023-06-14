@@ -5,15 +5,16 @@ namespace BookStoreWebApi.BookOperations.DeleteBook
     public class DeleteBookCommand
     {
         private readonly BookStoreDBContext _context;
+        public int Id { get; set; }
 
         public DeleteBookCommand(BookStoreDBContext context)
         {
             _context = context;
         }
 
-        public void Handle(int id)
+        public void Handle()
         {
-             var book = _context.Books.SingleOrDefault(book => book.Id == id);
+             var book = _context.Books.SingleOrDefault(book => book.Id == Id);
             
             if(book is null)
             {
