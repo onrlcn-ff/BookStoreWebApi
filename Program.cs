@@ -1,6 +1,7 @@
 using System.Reflection;
 using BookStoreWebApi.DBOperations;
 using BookStoreWebApi.Middlewares;
+using BookStoreWebApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BookStoreDBContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddSingleton<ILoggerService,ConsoleLogger>();
 
 var app = builder.Build();
 
