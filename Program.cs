@@ -1,5 +1,6 @@
 using System.Reflection;
 using BookStoreWebApi.DBOperations;
+using BookStoreWebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +34,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCustomExceptionMiddlewares();
 
 app.MapControllers();
 

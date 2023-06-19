@@ -44,3 +44,4 @@ C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\Microsoft.Ex
 C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\Cmd\Documents\WebProjects\BookStoreWebApi\bin\Debug\net6.0\Newtonsoft.Json.dll
